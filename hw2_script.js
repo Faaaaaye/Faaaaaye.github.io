@@ -1,50 +1,56 @@
-$(document).ready(function(){
-     $.getJSON("students.json", function(info){
-     		tbody = document.getElementById('table');
-     		d = details(info);
-     	for(var i=0;i<info.length;i++)
-     		{	
-		                	tr = tbody.insertRow();
-					tr.insertCell().innerHTML = d[i].Name;
-					tr.insertCell().innerHTML = d[i].GPA;
-					tr.insertCell().innerHTML = d[i].GRE_V;
-					tr.insertCell().innerHTML = d[i].GRE_Q;
-					tr.insertCell().innerHTML = d[i].Essay;
-					tr.insertCell().innerHTML = d[i].Recom;
-					tr.insertCell().innerHTML = d[i].Total;
-					tr.insertCell().innerHTML = d[i].Ranking;
-				var info[i].mark=i
-				info[i].Total=(info[i].GPA)/4*100+(info[i].GRE_V)/170*100+(info[i].GRE_Q)/170*100+(info[i].Essay)/10*100+(info[i].Recom)/10*100;
-			
-			}
-			
-  
+function load_stu_score() {
+	url = "students.json"
+	$.get(
+			url,
+			{},
+			function(o) {
+				str = ""
+				data = data_process(o)
+				tbody = document.getElementById('table')
+				for (var i = 0; i<o.length; i++) {
+					tr = tbody.insertRow()
+					tr.insertCell().innerHTML = data[i].Name
+					tr.insertCell().innerHTML = data[i].GPA
+					tr.insertCell().innerHTML = data[i].GRE_V
+					tr.insertCell().innerHTML = data[i].GRE_Q
+					tr.insertCell().innerHTML = data[i].Essay
+					tr.insertCell().innerHTML = data[i].Recom
+					tr.insertCell().innerHTML = data[i].total.toFixed(4)
+					tr.insertCell().innerHTML = data[i].ranking
+				};
 
-    
-    }
-    	function details(info){
-     			for (var i=0; i<info.length; i++) {
-		            for (var j=i+1; j<info.length; j++) {
-			      if (info[i].total < info[j].total) {
-				       t = info[i];
-				       info[i] = info[j];
-				       info[j] = t;
+			},
+		
+		);
+}
+
+function data_process(o) {
+	for (var i=0; i<o.length; i++) {
+		o[i].total = o[i].GPA/4 + (o[i].GRE_V-130)/40 + (o[i].GRE_Q-130)/40 + o[i].Essay/6 + o[i].Recom/10
+		o[i].mark = i
+	}
+	for (var i=0; i<o.length; i++) {
+		for (var j=i+1; j<o.length; j++) {
+			if (o[i].total < o[j].total) {
+				t = o[i]
+				o[i] = o[j]
+				o[j] = t
 			}
 		}
 	}
-	                for (var i=0; i<info.length; i++) {
-		               info[i].Ranking = i+1;
-                                 	}
-	                for (var i=0; i<info.length; i++) {
-	                   	for (var j=i+1; j<info.length; j++) {
-			               if (info[i].mark > info[j].mark) {
-			             	t = info[i];
-				        info[i] = info[j];
-				        info[j] = t;
-		                      	}
-		                 }
-                    	}
+	
+	for (var i=0; i<o.length; i++) {
+		o[i].ranking = i+1
+	}
 
-     };
-     );
-};
+	for (var i=0; i<o.length; i++) {
+		for (var j=i+1; j<o.length; j++) {
+			if (o[i].mark > o[j].mark) {
+				t = o[i]
+				o[i] = o[j]
+				o[j] = t
+			}
+		}
+	}
+	return o
+}
