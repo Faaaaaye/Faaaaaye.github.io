@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var url="http://yijisoo.github.io/ie59000/2015spring/hw2/students.json";
+	var url="https://hivelab.org/static/students.json";
      $.getJSON(url, function(info){
      		var a = $(".hw2 tbody");
      	for(var i=0;i<info.length;i++)
