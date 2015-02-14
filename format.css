@@ -5,7 +5,6 @@ h1 {
 	text-align: center;
 }
 div{
-
   display:incline-block;
 }
 #top{
@@ -23,10 +22,12 @@ div{
   
 }
 table{
+  border=5px; 
   width:80%;
   height:88%;
   margin:auto;
   text-align:center;
+  
 }
 th{
   font-size:30px;
