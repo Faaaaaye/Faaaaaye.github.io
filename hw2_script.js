@@ -1,9 +1,5 @@
 function load_stu_score() {
-	url = "students.json"
-	$.get(
-			url,
-			{},
-			function(o) {
+	$.getJSON("students.json",function(o) {
 				str = ""
 				data = data_process(o)
 				tbody = document.getElementById('table')
