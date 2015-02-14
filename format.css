@@ -1,5 +1,6 @@
 body{
   font-family:Verdana;
+  display:incline-block;
 }
 h1 {
 	text-align: center;
@@ -8,8 +9,8 @@ div{
   display:incline-block;
 }
 #top{
-  width:200%;
-  height:10%;
+  width:100%;
+  height:20%;
   color:#FFB6C1
   position:relative;
 }
