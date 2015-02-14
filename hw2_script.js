@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-	var url="http://yijisoo.github.io/ie59000/2015spring/hw2/students.json";
-     $.getJSON(url, function(info){
+	
+     $.getJSON("students.json", function(info){
      	var a = $(".hw2 tbody");
      	for(var i=0;i<info.length;i++)
      		{	
