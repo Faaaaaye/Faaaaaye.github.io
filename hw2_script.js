@@ -14,7 +14,7 @@ $(document).ready(function(){
 				a.append("<td>"+info[i].Total+"</td>");
 				a.append("</tr>");
      		
-				var info[i].mark=i
+				 info[i].mark=i
      		}
 				
 				
