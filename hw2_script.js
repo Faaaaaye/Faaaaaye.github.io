@@ -19,7 +19,7 @@ $(document).ready(function(){
 				
 				
 				{
-					for (var i=0; i<info.length; i++) {
+					for ( i=0; i<info.length; i++) {
 		                            for (var j=i+1; j<info.length; j++) {
 			                   if (info[i].total < info[j].total) {
 				                     t = info[i];
@@ -28,11 +28,11 @@ $(document).ready(function(){
 		                           	}
 		                             }
         	                         }
-	                for (var i=0; i<info.length; i++) {
+	                for ( i=0; i<info.length; i++) {
 		               info[i].Ranking = i+1;
                                  	}
-	                for (var i=0; i<info.length; i++) {
-	                   	for (var j=i+1; j<info.length; j++) {
+	                for ( i=0; i<info.length; i++) {
+	                   	for ( j=i+1; j<info.length; j++) {
 			               if (info[i].mark > info[j].mark) {
 			             	t = info[i];
 				        info[i] = info[j];
@@ -42,7 +42,7 @@ $(document).ready(function(){
                     	}
 
      };
-     for(var i=0;i<info.length;i++){
+     for( i=0;i<info.length;i++){
      	a.append("<tr>");a.append("<td>"+info[i].Ranking+"</td>");	a.append("</tr>");}
      
 			
