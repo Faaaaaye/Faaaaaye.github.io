@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var url="https://hivelab.org/static/students.json";
      $.getJSON(url, function(info){
-     		var a = $(".hw2 tbody");
+     		var a = $(".tbody");
      	for(var i=0;i<info.length;i++)
      		{	
      		a.append("<tr>");
@@ -47,7 +47,7 @@ $(document).ready(function(){
      
 			
 			});
-}
+});
 			
   
 
