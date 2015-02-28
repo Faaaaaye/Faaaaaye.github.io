@@ -67,12 +67,12 @@
 <svg class="chart"></svg>
 <script type="text/javascript" src="d3/d3.js"></script> 
 <script>
-var dataset;
+
 d3.json("data.json", function(data) {
-dataset=data;
+var data={
 for(var i=0;i<data.length;i++){
   labels[i]=data[i].Country;
-  }
+  },
   series:[
     {
       label: 'Total instructional hours/year',
@@ -87,7 +87,7 @@ for(var i=0;i<data.length;i++){
       for(i=0;i<data.length;i++){values[i]=data[i].science;}
     },]
   	}
-
+}
 
 var chartWidth       = 300,
     barHeight        = 20,
