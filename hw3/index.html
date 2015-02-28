@@ -40,28 +40,31 @@
 
 </style>
 <svg class="chart"></svg>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="d3/d3.js"></script> 
 <script>
-
-var data = {
-  labels: [
-    'resilience', 'maintainability', 'accessibility',
-    'uptime', 'functionality', 'impact'
-  ],
+var dataset;
+d3.json("data.json", function(data) {
+dataset=data;
+for(var i=0;i<data.length;i++){
+  labels[i]=data[i].Country;
+  }
   series: [
     {
-      label: '2012',
-      values: [4, 8, 15, 16, 23, 42]
+      label: 'Total instructional hours/year',
+	  for(i=0;i<data.length;i++){
+      values[i]=data[i].Total hours}
     },
     {
-      label: '2013',
-      values: [12, 43, 22, 11, 73, 25]
+      label: 'Mathematics Instructional hours/year',
+	  for(i=0;i<data.length;i++){
+      values[i]=data[i].maths}
     },
     {
-      label: '2014',
-      values: [31, 28, 14, 8, 15, 21]
+      label: 'Science Instructional hours/year',
+	  for(i=0;i<data.length;i++){
+      values[i]=data[i].science}
     },]
-};
+
 
 var chartWidth       = 300,
     barHeight        = 20,
@@ -167,5 +170,5 @@ legend.append('text')
     .attr('x', legendRectSize + legendSpacing)
     .attr('y', legendRectSize - legendSpacing)
     .text(function (d) { return d.label; });
-
+});
 </script>
