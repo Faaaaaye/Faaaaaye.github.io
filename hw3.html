@@ -65,20 +65,19 @@ for(var i=0;i<data.length;i++){
   labels[i]=data[i].Country;
   }
   series: [
+  	for(i=0;i<data.length;i++)
     {
-      label: 'Total instructional hours/year',
-	  for(i=0;i<data.length;i++){
-      values[i]=data[i].Total hours}
+      label: 'Total instructional hours/year'，
+      values[i]=data[i].Total hours
     },
-    {
+    for(i=0;i<data.length;i++){
       label: 'Mathematics Instructional hours/year',
-	  for(i=0;i<data.length;i++){
-      values[i]=data[i].maths}
+      values[i]=data[i].maths
     },
+    for(i=0;i<data.length;i++)
     {
       label: 'Science Instructional hours/year',
-	  for(i=0;i<data.length;i++){
-      values[i]=data[i].science}
+      values[i]=data[i].science
     },]
 
 
