@@ -68,9 +68,12 @@
 <script type="text/javascript" src="d3/d3.js"></script> 
 <script>
 
-d3.json("data.json", function(data) {
-alert(data)
-}
+d3.csv("data.csv", function(data) {
+  alert(data[1].country)
+  alert(data[1].total_ins_hour_per_year)
+  alert(data[1].Math_hours_per_year)
+  alert(data[1].Sci_hours_per_year)
+})
 
 var chartWidth       = 300,
     barHeight        = 20,
@@ -176,7 +179,7 @@ legend.append('text')
     .attr('x', legendRectSize + legendSpacing)
     .attr('y', legendRectSize - legendSpacing)
     .text(function (d) { return d.label; });
-});
+// });
 </script>
 <h2>Story and Data Source:</h2>
 <p>写故事的地方</p>
