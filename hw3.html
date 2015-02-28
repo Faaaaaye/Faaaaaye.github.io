@@ -69,16 +69,7 @@
 <script>
 
 d3.json("data.json", function(data) {
-for(var i=0;i<data.length;i++){
-  labels[i]=data[i].Country;
-  }
-      series.label[0]='Total instructional hours/year';
-      for(i=0;i<data.length;i++){series.label[0].values[i]=data[i].Total hours;}
-      series.label[1]:='Mathematics Instructional hours/year';
-      for(i=0;i<data.length;i++){series.label[1].values[i]=data[i].maths;}
-      series.label[2]='Science Instructional hours/year';
-      for(i=0;i<data.length;i++){series.label[2].values[i]=data[i].science;}
-  	}
+alert(data)
 }
 
 var chartWidth       = 300,
