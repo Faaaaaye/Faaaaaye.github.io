@@ -27,7 +27,7 @@ body {
 }
 
 .axis text {
-  font: 5px sans-serif;
+  font: 2px sans-serif;
 }
 
 .axis path,
@@ -38,7 +38,7 @@ body {
 }
 
 .bar {
-  fill: steelblue;
+  fill: #FFB6C1;
   fill-opacity: .9;
 }
 
@@ -58,7 +58,7 @@ label {
     <div ID="left"></div>
      <div ID="right"></div>
      <div ID="middle">   
-      <h1>Math Instructional Hours among countries over the world</h1>
+      <h1>Math Instructional Hours among countries over the world<br/>()</h1>
    <br /><br />
 <label><input type="checkbox"> Sort values</label>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -152,5 +152,10 @@ d3.csv("data.csv", function(error, data) {
 });
 
 </script>
+<p>Data Source:<a href="http://nces.ed.gov/programs/digest/d12/tables/dt12_460.asp">http://nces.ed.gov/programs/digest/d12/tables/dt12_460.asp</a></p>
+<p>Author:Fan Jingxian</P>
+<br /><br/>
+<h2> Explanation:</h2>
+<p></p>
  </div>
 </body>
