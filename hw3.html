@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Maths,Science and Total Instructional Hours</title>
+<title>Maths Instructional Hours</title>
  <script src="jquery-1.8.3.min.js"></script>
         <link rel="stylesheet" type="text/css" href="format.css"/>
 <script type="text/javascript" src="d3/d3.js">
@@ -17,9 +17,8 @@
   ga('create', 'UA-60218875-1', 'auto');
   ga('send', 'pageview');
 </script>
-<meta charset="utf-8">
+
 <style>
-<<<<<<< HEAD
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -29,39 +28,14 @@ body {
 
 .axis text {
   font: 10px sans-serif;
-=======
-/*
-.chart rect {
-  fill: steelblue;
 }
-*/
-.chart .legend {
-  fill: black;
-  font: 14px sans-serif;
-  text-anchor: start;
-  font-size: 12px;
-}
-.chart text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
-.chart .label {
-  fill: black;
-  font: 14px sans-serif;
-  text-anchor: end;
-}
-.bar:hover {
-  fill: brown;
->>>>>>> origin/master
-}
+
 .axis path,
 .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
-<<<<<<< HEAD
 
 .bar {
   fill: steelblue;
@@ -79,6 +53,13 @@ label {
 }
 
 </style>
+<body>
+<div ID="top" ><p>Homework3-Fan Jingxian</p></div>
+    <div ID="left"></div>
+     <div ID="right"></div>
+     <div ID="middle">   
+      <h1>Math Instructional Hours among countries over the world</h1>
+   <br /><br />
 <label><input type="checkbox"> Sort values</label>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
@@ -132,7 +113,7 @@ d3.csv("data.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Mathhours");
+      .text("Frequency");
 
   svg.selectAll(".bar")
       .data(data)
@@ -174,124 +155,5 @@ d3.csv("data.csv", function(error, data) {
 });
 
 </script>
-=======
-</style>
-<body>
-<div ID="top" ><p>Homework3-Fan Jingxian</p></div>
-    <div ID="left"></div>
-     <div ID="right"></div>
-     <div ID="middle">   
-<h1>Relationships of Maths,Science and Total Instructional Hours among countries over the world</h1>
- <br /><br />
-<svg class="chart"></svg>
-<script type="text/javascript" src="d3/d3.js"></script> 
-<script>
-d3.csv("data.csv", function(data) {
-  var info = {
-  for(var i=0;i<data.length;i++){
-  labels[i]=data[i].country;
-     }
-  for(i=0;i<data.length;i++){
-  series[{label[0],values[i]}]={'Total hours',data[i].total_ins_hour_per_year};
-  series[{lebel[1],values[i]}]={'Math hours',data[i].Math_hours_per_year};
-  series[{lebel[2],values[i]}]={'Science hours',data[i].Sci_hours_per_year};
-     }
-  }
-  
-})
-var chartWidth       = 300,
-    barHeight        = 20,
-    groupHeight      = barHeight * info.series.length,
-    gapBetweenGroups = 10,
-    spaceForLabels   = 150,
-    spaceForLegend   = 150;
-// Zip the series data together (first values, second values, etc.)
-var zippedData = [];
-for ( i=0; i<info.labels.length; i++) {
-  for ( j=0; j<info.series.length; j++) {
-    zippedData.push(info.series[j].values[i]);
-  }
-}
-// Color scale
-var color = d3.scale.category20();
-var chartHeight = barHeight * zippedData.length + gapBetweenGroups * info.labels.length;
-var x = d3.scale.linear()
-    .domain([0, d3.max(zippedData)])
-    .range([0, chartWidth]);
-var y = d3.scale.linear()
-    .range([chartHeight + gapBetweenGroups, 0]);
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .tickFormat('')
-    .tickSize(0)
-    .orient("left");
-// Specify the chart area and dimensions
-var chart = d3.select(".chart")
-    .attr("width", spaceForLabels + chartWidth + spaceForLegend)
-    .attr("height", chartHeight);
-// Create bars
-var bar = chart.selectAll("g")
-    .data(zippedData)
-    .enter().append("g")
-    .attr("transform", function(d, i) {
-      return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/info.series.length))) + ")";
-    });
-// Create rectangles of the correct width
-bar.append("rect")
-    .attr("fill", function(d,i) { return color(i % info.series.length); })
-    .attr("class", "bar")
-    .attr("width", x)
-    .attr("height", barHeight - 1);
-// Add text label in bar
-bar.append("text")
-    .attr("x", function(d) { return x(d) - 3; })
-    .attr("y", barHeight / 2)
-    .attr("fill", "red")
-    .attr("dy", ".35em")
-    .text(function(d) { return d; });
-// Draw labels
-bar.append("text")
-    .attr("class", "label")
-    .attr("x", function(d) { return - 10; })
-    .attr("y", groupHeight / 2)
-    .attr("dy", ".35em")
-    .text(function(d,i) {
-      if (i % info.series.length === 0)
-        return info.labels[Math.floor(i/info.series.length)];
-      else
-        return ""});
-chart.append("g")
-      .attr("class", "y axis")
-      .attr("transform", "translate(" + spaceForLabels + ", " + -gapBetweenGroups/2 + ")")
-      .call(yAxis);
-// Draw legend
-var legendRectSize = 18,
-    legendSpacing  = 4;
-var legend = chart.selectAll('.legend')
-    .data(info.series)
-    .enter()
-    .append('g')
-    .attr('transform', function (d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset = -gapBetweenGroups/2;
-        var horz = spaceForLabels + chartWidth + 40 - legendRectSize;
-        var vert = i * height - offset;
-        return 'translate(' + horz + ',' + vert + ')';
-    });
-legend.append('rect')
-    .attr('width', legendRectSize)
-    .attr('height', legendRectSize)
-    .style('fill', function (d, i) { return color(i); })
-    .style('stroke', function (d, i) { return color(i); });
-legend.append('text')
-    .attr('class', 'legend')
-    .attr('x', legendRectSize + legendSpacing)
-    .attr('y', legendRectSize - legendSpacing)
-    .text(function (d) { return d.label; });
-// });
-</script>
-<h2>Story and Data Source:</h2>
-<p>写故事的地方</p>
+ </div>
 </body>
-</html>
->>>>>>> origin/master
