@@ -27,7 +27,7 @@ body {
 }
 
 .axis text {
-  font: 10px sans-serif;
+  font: 5px sans-serif;
 }
 
 .axis path,
@@ -68,8 +68,6 @@ var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var formatPercent = d3.format(".0%");
-
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1, 1);
 
@@ -82,8 +80,7 @@ var xAxis = d3.svg.axis()
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left")
-    .tickFormat(formatPercent);
+    .orient("left");
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -113,7 +110,7 @@ d3.csv("data.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Frequency");
+      .text("Math hours");
 
   svg.selectAll(".bar")
       .data(data)
