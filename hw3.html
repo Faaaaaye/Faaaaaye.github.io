@@ -19,7 +19,6 @@
 </script>
 
 <style>
-
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   position: relative;
@@ -28,6 +27,10 @@ body {
 
 .axis text {
   font: 2px sans-serif;
+}
+
+.x g text {
+  transform: rotate(90deg) translate(65px, -10px);
 }
 
 .axis path,
@@ -64,7 +67,7 @@ label {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
+var margin = {top: 20, right: 20, bottom: 100, left: 40},
     width = 1000 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -100,7 +103,7 @@ d3.csv("data.csv", function(error, data) {
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
 
   svg.append("g")
       .attr("class", "y axis")
@@ -123,9 +126,9 @@ d3.csv("data.csv", function(error, data) {
 
   d3.select("input").on("change", change);
 
-  var sortTimeout = setTimeout(function() {
-    d3.select("input").property("checked", true).each(change);
-  }, 2000);
+  // var sortTimeout = setTimeout(function() {
+  //   d3.select("input").property("checked", true).each(change);
+  // }, 2000);
 
   function change() {
     clearTimeout(sortTimeout);
@@ -142,12 +145,13 @@ d3.csv("data.csv", function(error, data) {
 
     transition.selectAll(".bar")
         .delay(delay)
-        .attr("x", function(d) { return x0(d.Country); });
+        .attr("x", function(d) { return x0(d.Country); })
 
     transition.select(".x.axis")
         .call(xAxis)
       .selectAll("g")
         .delay(delay);
+
   }
 });
 
