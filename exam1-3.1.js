@@ -81,6 +81,6 @@ d3.json('exam1.json', function(data) {
 
 });
 
-
+console.log(d.num);
 }
 
