@@ -40,7 +40,7 @@ svg.call(tip);
 d3.json('exam1.json', function(data) {
 	var newnumber = [];var i =0;
 	for(item in data[3]){
-		if(item !="year"){
+		if(item !="Year"){
 			var d ={univ:"",num:"",order:""};
                 d.univ=item;
                 d.num=data[3][item];
@@ -50,9 +50,9 @@ d3.json('exam1.json', function(data) {
 			}
 	}
 	
+	
   x.domain(data.map(function(d) { return d.univ; }));
-  y.domain([0, d3.max(data, function(d) { return d.num; })]);
-
+  y.domain([0, 150]);
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
@@ -74,13 +74,13 @@ d3.json('exam1.json', function(data) {
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.univ); })
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.num); })
+      .attr("y", function(d) {return y(d.num); })
       .attr("height", function(d) { return height - y(d.num); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-
+	 
 });
 
-console.log(d.num);
+
 }
 
