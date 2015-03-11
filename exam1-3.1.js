@@ -16,7 +16,7 @@ var y = d3.scale.linear()
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");`
+    .orient("bottom");
 
 var yAxis = d3.svg.axis()
     .scale(y)
