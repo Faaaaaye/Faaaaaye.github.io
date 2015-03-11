@@ -43,7 +43,7 @@ d3.json('exam1.json', function(data) {
 		if(item !="year"){
 			var d ={univ:"",num:"",order:""};
                 d.univ=item;
-                d.unm=data[3][item];
+                d.num=data[3][item];
                 d.order=i;
                 newnumber[i]=d;
                 i=i+1;				
