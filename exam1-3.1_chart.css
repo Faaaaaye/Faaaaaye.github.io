@@ -8,7 +8,9 @@ body {
   stroke: #000;
   shape-rendering: crispEdges;
 }
-
+.x.axis text{
+    fill:none;
+}
 .bar {
   fill: #FFB6C1;
 }
