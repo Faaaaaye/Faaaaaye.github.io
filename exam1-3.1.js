@@ -1,3 +1,8 @@
+$(document).ready(function() {
+	exam1_graph();
+});
+
+
 function exam1_graph(){
 var margin = {top: 40, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
@@ -11,7 +16,7 @@ var y = d3.scale.linear()
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom");`
 
 var yAxis = d3.svg.axis()
     .scale(y)
