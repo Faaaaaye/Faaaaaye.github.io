@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>exam1-3.3_Fan Jingxian</title>
+<script src="./d3/d3.min.js"></script>
+<script src="./d3.tip.v0.6.3.js"></script>
+<script src="jquery-1.8.3.min.js"></script>
+<link type="text/css" rel="stylesheet" href="exam1-3.2_chart.css"/>
+<link type="text/css" rel="stylesheet" href="format.css"/>
+</head>
+<body>
+     <div ID="top" ><p>IE590 Exam1-3.3</p></div>
+     <div ID="left"></div>
+     <div ID="right"></div>
+     <div ID="middle">  
+	 <h1>3.3-The total numbers of IE students in five universities </h1>
+	  <br />
+
+	  <script>
+var n = 4, // number of layers
+    m = 5; // number of samples per layer
+	
+
+var margin = {top: 40, right: 200, bottom: 30, left: 80},
+    width = 960 - margin.left - margin.right,
+	h=380,
+	padding=100,
+    height = 500 - margin.top - margin.bottom;
+    
+var x = d3.scale.ordinal()
+    .domain(d3.range(m))
+    .rangeRoundBands([padding, width], .1);
+
+var y = d3.scale.linear()
+    .domain([0, 500])
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+	.tickSize(0)
+    .tickPadding(5)
+    .orient("bottom");
+	
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+//add tips	
+var tip1 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Freshman + "</span>";
+  })
+var tip2 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Sophomore + "</span>";
+  })
+  var tip3 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Junior + "</span>";
+  })
+  var tip4 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Senior + "</span>";
+  })
+d3.json('exam1.json', function(data) {
+	/*build my data*/
+	var newnumber=[];
+     for (var i=0; i<5; i++) {
+			var d = {univ: "", Freshman: "", Sophomore: "", Junior: "", Senior: "", order: ""}
+			newnumber[i] = d;
+			d.order=i;
+		    }
+	var students = "";
+	for (item in data) {
+			switch(data[item].Year) {
+				case "Freshman": 
+					students = "Freshman";
+					break
+				case "Sophomore": 
+					students = "Sophomore";
+					break
+				case "Junior": 
+					students = "Junior";
+					break
+				case "Senior": 
+					students = "Senior";
+					break
+			}
+	newnumber[0][students] = data[item]["University A"];
+	newnumber[1][students] = data[item]["University B"];
+	newnumber[2][students] = data[item]["University C"];
+	newnumber[3][students] = data[item]["University D"];
+	newnumber[4][students] = data[item]["University E"];
+	}
+	var i=0;
+	for(item in data[0]){
+		if(item !="Year"){
+                newnumber[i].univ=item;
+                i=i+1;		
+	      }
+	}
+	
+	
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+   svg.append("g")
+      .attr("class", "y axis")
+	  .attr("transform", "translate(0," +(-padding)+ ")")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("The Number of Students");
+svg.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate("+(-padding)+" , " +(padding+230)+")")
+			.call(xAxis)
+			
+		      	
+
+	  
+svg.call(tip1);
+svg.call(tip2);
+svg.call(tip3);
+svg.call(tip4);
+
+//add chart
+svg.selectAll("data_Freshman")
+	   .data(newnumber)
+	   .enter().append("rect")
+		      .attr("class", "data_Freshman")
+		      .attr("x", function(d) { return d.order*(x.rangeBand()+10)+20;})
+		      .attr("width", x.rangeBand()-10)
+			  .attr("y", function(d) { return height - y(500- d.Freshman)-padding})
+			  .attr("height", function(d) { return y(500 - d.Freshman)})
+			 .on('mouseover', tip1.show)
+             .on('mouseout', tip1.hide)
+   
+				
+svg.selectAll("data_Sophomore")
+	   .data(newnumber)
+	   .enter().append("rect")
+		      .attr("class", "data_Sophomore")
+		      .attr("x", function(d) { return d.order*(x.rangeBand()+10)+20;})
+		      .attr("width", x.rangeBand()-10)
+			  .attr("y", function(d) { return height - y(500-d.Freshman-d.Sophomore)-padding})
+			  .attr("height", function(d) { return y(500 - d.Sophomore)})
+			   .on('mouseover', tip2.show)
+				.on('mouseout', tip2.hide)
+ 
+svg.selectAll("data_Junior")
+	   .data(newnumber)
+	   .enter().append("rect")
+		      .attr("class", "data_Junior")
+		      .attr("x", function(d) { return d.order*(x.rangeBand()+10)+20;})
+		      .attr("width", x.rangeBand()-10)
+			  .attr("y", function(d) { return height - y(500-d.Freshman-d.Sophomore-d.Junior)-padding})
+			  .attr("height", function(d) { return y(500 - d.Junior)})
+              .on('mouseover', tip3.show)
+              .on('mouseout', tip3.hide)
+
+				
+svg.selectAll("data_Senior")
+	   .data(newnumber)
+	   .enter().append("rect")
+		      .attr("class", "data_Senior")
+		      .attr("x", function(d) { return d.order*(x.rangeBand()+10)+20;})
+		      .attr("width", x.rangeBand()-10)
+			  .attr("y", function(d) { return height - y(500- d.Freshman-d.Sophomore-d.Junior-d.Senior)-padding})
+			  .attr("height", function(d) { return y(500 - d.Senior)})
+			   .on('mouseover', tip4.show)
+               .on('mouseout', tip4.hide)
+ 
+//add marks
+svg.selectAll(".textm")
+			.data(newnumber)
+			.enter()
+			.append("text")
+				.attr("class", "textm")
+		      	.attr("x", function(d) { return d.order*(x.rangeBand()+10) + 40 })
+		      	.attr("y", function(d) { return height -padding+20})
+		      	.text(function(d) {return d.univ})
+				
+svg.selectAll(".numm")
+			.data(newnumber)
+			.enter()
+			.append("text")
+				.attr("class", "numm")
+		      	.attr("x", function(d) { return d.order*(x.rangeBand()+10) + 60 })
+		      	.attr("y", function(d) { return height - 5 -  y(500 - d.Freshman-d.Sophomore-d.Junior-d.Senior)-padding})
+		      	.text(function(d) {return ( d.Freshman+d.Sophomore+d.Junior+d.Senior)}) 
+//add labels	
+svg.append("text")	
+                            .text("Press on the box legend to change view:")	
+							.attr("x",640)
+							.attr("y",70)
+svg.append("rect")
+							.attr("y", 90)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFB6C1")
+							.attr("stroke","#7f7f7f")
+							.attr("class","g4")
+							.attr("stroke-width","0.5");
+							
+			
+svg.append("text")
+							.text("Senior")
+							.attr("x", 780)
+							.attr("y", 105)
+svg.append("rect")
+							.attr("y", 120)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFC0CB")
+							.attr("stroke","#7f7f7f")
+							.attr("class","g3")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Junior")
+							.attr("x", 780)
+							.attr("y", 135)
+svg.append("rect")
+							.attr("y", 150)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFE4E1")
+							.attr("stroke","#7f7f7f")
+							.attr("class","g2")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Sophomore")
+							.attr("x", 780)
+							.attr("y", 165)
+svg.append("rect")
+							.attr("y", 180)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFF0F5")
+							.attr("stroke","#7f7f7f")
+							.attr("class","g1")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Freshman")
+							.attr("x", 780)
+							.attr("y", 195)
+<!--extra interactive part below-->		
+//click on Freshman		
+		
+ d3.selectAll(".g1")
+	        .on("click",function(){
+			      
+				  svg.selectAll(".data_Freshman")
+                	.transition()
+	        		.attr("y",height-padding);
+
+					svg.selectAll(".data_Sophomore")
+						.data(newnumber)
+						 .transition()
+						.attr("y",function(d){return height-padding-y(500-d.Sophomore);});
+                    console.log(y(d));
+					svg.selectAll(".data_Junior")
+			            .data(newnumber)
+						 .transition()
+						.attr("y",function(d){
+							return height-y(500-d.Junior)-padding-y(500-d.Sophomore);
+						});
+
+					svg.selectAll(".data_Senior")
+						.data(newnumber)
+						.transition()
+
+						.attr("y",function(d){
+							return height-y(500-d.Senior)-padding-y(500-d.Sophomore)-y(500-d.Junior);
+						});	
+	        	});
+d3.selectAll(".g2")
+	        .on("click",function(){
+			      
+				  svg.selectAll(".data_Sophomore")
+                	.transition()
+	        		.attr("y",height-padding);
+
+					svg.selectAll(".data_Freshman")
+						.data(newnumber)
+						 .transition()
+						.attr("y",function(d){return height-padding-y(500-d.Freshman);});
+                   
+					svg.selectAll(".data_Junior")
+			            .data(newnumber)
+						 .transition()
+						.attr("y",function(d){
+							return height-y(500-d.Junior)-padding-y(500-d.Freshman);
+						});
+
+					svg.selectAll(".data_Senior")
+						.data(newnumber)
+						.transition()
+
+						.attr("y",function(d){
+							return height-y(500-d.Senior)-padding-y(500-d.Freshman)-y(500-d.Junior);
+						});	
+	        	});
+d3.selectAll(".g3")
+	        .on("click",function(){
+			      
+				  svg.selectAll(".data_Junior")
+                	.transition()
+	        		.attr("y",height-padding);
+
+					svg.selectAll(".data_Freshman")
+						.data(newnumber)
+						 .transition()
+						.attr("y",function(d){return height-padding-y(500-d.Freshman);});
+                    
+					svg.selectAll(".data_Sophomore")
+			            .data(newnumber)
+						 .transition()
+						.attr("y",function(d){
+							return height-y(500-d.Freshman)-padding-y(500-d.Sophomore);
+						});
+
+					svg.selectAll(".data_Senior")
+						.data(newnumber)
+						.transition()
+
+						.attr("y",function(d){
+							return height-y(500-d.Senior)-padding-y(500-d.Sophomore)-y(500-d.Freshman);
+						});	
+	        	});
+d3.selectAll(".g4")
+	        .on("click",function(){
+			      
+				  svg.selectAll(".data_Senior")
+                	.transition()
+	        		.attr("y",height-padding);
+
+					svg.selectAll(".data_Freshman")
+						.data(newnumber)
+						 .transition()
+						.attr("y",function(d){return height-padding-y(500-d.Freshman);});
+                    console.log(y(d));
+					svg.selectAll(".data_Sophomore")
+			            .data(newnumber)
+						 .transition()
+						.attr("y",function(d){
+							return height-y(500-d.Freshman)-padding-y(500-d.Sophomore);
+						});
+
+					svg.selectAll(".data_Junior")
+						.data(newnumber)
+						.transition()
+
+						.attr("y",function(d){
+							return height-y(500-d.Freshman)-padding-y(500-d.Sophomore)-y(500-d.Junior);
+						});	
+	        	});
+	        	});
+	  </script>
+	</div>
+</body>
