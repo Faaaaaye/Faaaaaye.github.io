@@ -83,13 +83,17 @@ svg.call(tip);
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("The Number of Students");
-
+svg.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0, " + height+")")
+			.call(xAxis)
+			
   svg.selectAll(".bar")
       .data(newnumber)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return d.order*(x.rangeBand()+20)+20; })
-      .attr("width", x.rangeBand())
+      .attr("x", function(d) { return d.order*(x.rangeBand()+10)+20; })
+      .attr("width", x.rangeBand()-10)
       .attr("y", function(d) {return y(d.num); })
       .attr("height", function(d) { return height - y(d.num); })
       .on('mouseover', tip.show)
