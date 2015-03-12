@@ -19,9 +19,7 @@ body {
   fill: #FA8072 ;
 }
 
-.x.axis path {
-  display: none;
-}
+
 
 .d3-tip {
   line-height: 1;
