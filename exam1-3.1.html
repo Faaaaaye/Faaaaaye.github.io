@@ -103,7 +103,7 @@ svg.append("g")
 			.data(newnumber)
 			.enter().append("text")
 				.attr("class", "textm")
-		      	.attr("x", function(d) { return d.order*(x.rangeBand()+20) + 40 })
+		      	.attr("x", function(d) { return d.order*(x.rangeBand()+10) + 40 })
 		      	.attr("y", function(d) { return height +15})
 		      	.text(function(d) {return d.univ})
 	 
