@@ -15,7 +15,16 @@ body {
   fill: #FFB6C1;
 }
 
-.bar:hover {
+.data_Junior:hover {
+  fill: #FA8072;
+}
+.data_Senior:hover {
+  fill: #FA8072;
+}
+.data_Sophomore:hover {
+  fill: #FA8072;
+}
+.data_Freshman:hover {
   fill: #FA8072;
 }
 
@@ -32,20 +41,20 @@ body {
   border-radius: 2px;
 }
 .data_Freshman {
-  fill: #7CFC00;
+  fill: #FFF0F5;
 }
 
 
 .data_Sophomore {
-  fill: #8470FF;
+  fill: #FFE4E1;
 }
 
 .data_Junior {
-  fill: #FFD700;
+  fill: #FFC0CB;
 }
 
 .data_Senior {
-  fill: #4B0082;
+  fill: #FFB6C1;
 }
 
 
