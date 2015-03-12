@@ -20,7 +20,7 @@ var n = 4, // number of layers
     m = 5; // number of samples per layer
 	
 
-var margin = {top: 40, right: 20, bottom: 30, left: 40},
+var margin = {top: 40, right: 200, bottom: 30, left: 80},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -41,8 +41,31 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-
-
+//add tips	
+var tip1 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Freshman + "</span>";
+  })
+var tip2 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Sophomore + "</span>";
+  })
+  var tip3 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Junior + "</span>";
+  })
+  var tip4 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Number:</strong> <span style='color:red'>" + d.Senior + "</span>";
+  })
 d3.json('exam1.json', function(data) {
 	/*build my data*/
 	var newnumber=[];
@@ -74,9 +97,9 @@ d3.json('exam1.json', function(data) {
 	newnumber[4][students] = data[item]["University E"];
 	}
 	var i=0;
-	for(item in data[3]){
+	for(item in data[0]){
 		if(item !="Year"){
-                d.univ=item;
+                newnumber[i].univ=item;
                 i=i+1;		
 	      }
 	}
@@ -98,7 +121,13 @@ var svg = d3.select("body").append("svg")
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("The Number of Students");
+	  
+svg.call(tip1);
+svg.call(tip2);
+svg.call(tip3);
+svg.call(tip4);
 
+//add chart
 svg.selectAll("data_Freshman")
 	   .data(newnumber)
 	   .enter().append("rect")
@@ -107,7 +136,9 @@ svg.selectAll("data_Freshman")
 		      .attr("width", x.rangeBand())
 			  .attr("y", function(d) { return height - y(500- d.Freshman)})
 			  .attr("height", function(d) { return y(500 - d.Freshman)})
-			    
+			 .on('mouseover', tip1.show)
+             .on('mouseout', tip1.hide)
+   
 				
 svg.selectAll("data_Sophomore")
 	   .data(newnumber)
@@ -117,7 +148,9 @@ svg.selectAll("data_Sophomore")
 		      .attr("width", x.rangeBand())
 			  .attr("y", function(d) { return height - y(500-d.Freshman-d.Sophomore)})
 			  .attr("height", function(d) { return y(500 - d.Sophomore)})
-			    
+			   .on('mouseover', tip2.show)
+				.on('mouseout', tip2.hide)
+ 
 svg.selectAll("data_Junior")
 	   .data(newnumber)
 	   .enter().append("rect")
@@ -126,6 +159,8 @@ svg.selectAll("data_Junior")
 		      .attr("width", x.rangeBand())
 			  .attr("y", function(d) { return height - y(500-d.Freshman-d.Sophomore-d.Junior)})
 			  .attr("height", function(d) { return y(500 - d.Junior)})
+              .on('mouseover', tip3.show)
+              .on('mouseout', tip3.hide)
 
 				
 svg.selectAll("data_Senior")
@@ -136,23 +171,80 @@ svg.selectAll("data_Senior")
 		      .attr("width", x.rangeBand())
 			  .attr("y", function(d) { return height - y(500- d.Freshman-d.Sophomore-d.Junior-d.Senior)})
 			  .attr("height", function(d) { return y(500 - d.Senior)})
-			    
-	
+			   .on('mouseover', tip4.show)
+               .on('mouseout', tip4.hide)
+ 
+//add marks
 svg.selectAll(".textm")
 			.data(newnumber)
-			.enter().append("text")
+			.enter()
+			.append("text")
 				.attr("class", "textm")
-		      	.attr("x", function(d) { return d.order*(x.rangeBand()+20) + 20 })
+		      	.attr("x", function(d) { return d.order*(x.rangeBand()+20) + 40 })
 		      	.attr("y", function(d) { return height +20})
 		      	.text(function(d) {return d.univ})
 				
-  svg.selectAll(".numm")
+svg.selectAll(".numm")
 			.data(newnumber)
-			.enter().append("text")
+			.enter()
+			.append("text")
 				.attr("class", "numm")
-		      	.attr("x", function(d) { return d.order*(x.rangeBand()+20) + 20 })
+		      	.attr("x", function(d) { return d.order*(x.rangeBand()+20) + 70 })
 		      	.attr("y", function(d) { return height - 5 -  y(500 - d.Freshman-d.Sophomore-d.Junior-d.Senior)})
 		      	.text(function(d) {return ( d.Freshman+d.Sophomore+d.Junior+d.Senior)}) 
+//add rect			
+svg.append("rect")
+							.attr("y", 90)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFB6C1")
+							.attr("stroke","#7f7f7f")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Senior")
+							.attr("x", 780)
+							.attr("y", 105)
+svg.append("rect")
+							.attr("y", 120)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFC0CB")
+							.attr("stroke","#7f7f7f")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Junior")
+							.attr("x", 780)
+							.attr("y", 135)
+svg.append("rect")
+							.attr("y", 150)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFE4E1")
+							.attr("stroke","#7f7f7f")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Sophomore")
+							.attr("x", 780)
+							.attr("y", 165)
+svg.append("rect")
+							.attr("y", 180)
+							.attr("x", 750)
+							.attr("width","20px")
+							.attr("height","20px")
+							.attr("fill", "#FFF0F5")
+							.attr("stroke","#7f7f7f")
+							.attr("stroke-width","0.5");
+			
+svg.append("text")
+							.text("Freshman")
+							.attr("x", 780)
+							.attr("y", 195)
 });
 	  </script>
 	</div>
