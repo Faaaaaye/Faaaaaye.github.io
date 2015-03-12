@@ -191,7 +191,7 @@ svg.selectAll(".numm")
 			.enter()
 			.append("text")
 				.attr("class", "numm")
-		      	.attr("x", function(d) { return d.order*(x.rangeBand()+5) + 50 })
+		      	.attr("x", function(d) { return d.order*(x.rangeBand()+10) + 60 })
 		      	.attr("y", function(d) { return height - 5 -  y(500 - d.Freshman-d.Sophomore-d.Junior-d.Senior)})
 		      	.text(function(d) {return ( d.Freshman+d.Sophomore+d.Junior+d.Senior)}) 
 //add rect			
