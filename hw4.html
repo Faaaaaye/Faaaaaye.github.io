@@ -1,4 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Coffee Profit Treemap</title>
+ <script src="jquery-1.8.3.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="format.css"/>
+<script type="text/javascript" src="d3/d3.js">
+</script>
+<link type="text/css" rel="stylesheet" href="format.css"/>
+</head>
+<style>
+.node {
+  border: solid 1px white;
+  font: 30px sans-serif;
+  line-height: 40px;
+  overflow: hidden;
+  position: absolute;
+}
+.node:hover{
 
+  border:solid 1px black;
+  float: right;
+  z-index:5;
+
+
+}
+
+#tooltip {
+position: absolute;
+width: auto;
+height: auto;
+padding: 10px;
+background-color: orange;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
+-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
+box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+ pointer-events: none;
+ z-index:2;
+ opacity: 0.9;
+text-align:center;
+}
+#tooltip.hidden {
+display: none;
+}
+#tooltip p { 
+  margin: 0;
+font-family: sans-serif; font-size: 15px; line-height: 15px;
+}
+</style>
+
+<body>
+
+
+
+<div ID="top" ><p>Homework4-Fan Jingxian</p></div>
+    <div ID="left"></div>
+     <div ID="right"></div>
+     <div ID="middle">   
+      <h1>Coffee Treemap </h1>
+   <br /><br />
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<div class="Homework4">
 <script>
 		var color = d3.scale.category20();
 
@@ -299,3 +365,7 @@
 
 
 </script>
+</div>
+</div>
+</body>
+</html>
