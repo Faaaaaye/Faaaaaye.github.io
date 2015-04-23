@@ -1,371 +1,150 @@
 <!DOCTYPE html>
-<html>
 <head>
 <meta charset="UTF-8">
-<title>Coffee Profit Treemap</title>
- <script src="jquery-1.8.3.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="format.css"/>
-<script type="text/javascript" src="d3/d3.js">
-</script>
+<title>HW4-Fan Jingxian</title>
+<script src="./d3/d3.js"></script>
+<script src="./d3.tip.v0.6.3.js"></script>
+<script src="jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="format.css"/>
 <link type="text/css" rel="stylesheet" href="format.css"/>
 </head>
-<style>
-.node {
-  border: solid 1px white;
-  font: 30px sans-serif;
-  line-height: 40px;
-  overflow: hidden;
-  position: absolute;
-}
-.node:hover{
-
-  border:solid 1px black;
-  float: right;
-  z-index:5;
-
-
-}
-
-#tooltip {
-position: absolute;
-width: auto;
-height: auto;
-padding: 10px;
-background-color: orange;
--webkit-border-radius: 10px;
--moz-border-radius: 10px;
-border-radius: 10px;
--webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
--moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); 
-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
- pointer-events: none;
- z-index:2;
- opacity: 0.9;
-text-align:center;
-}
-#tooltip.hidden {
-display: none;
-}
-#tooltip p { 
-  margin: 0;
-font-family: sans-serif; font-size: 15px; line-height: 15px;
-}
-</style>
-
 <body>
-
-
-
-<div ID="top" ><p>Homework4-Fan Jingxian</p></div>
-    <div ID="left"></div>
-     <div ID="right"></div>
-     <div ID="middle">   
-      <h1>Coffee Treemap </h1>
-   <br /><br />
-
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<div class="Homework4">
+ <div ID="top" ><p>Homework2-Fan Jingxian</p></div>
+<h1>Coffee Treemap</h1>
+<div id="chart">
 <script>
-		var color = d3.scale.category10();
+hw4;
+function hw4() {
+  var color = d3.scale.category10c()
+  var margin = {top: 40, right: 20, bottom: 50, left: 60},
+    width = 650 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom
+
+  var svg = d3.select("#chart")
+		  .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", "translate("+margin.left+", "+margin.top+")")
+ 
+d3.csv('coffee.csv', function (error, data) {
+  data = cutdata(data)
+  var nest=d3.nest()
+        .key(function(d){return d.region})
+        .key(function(d){return d.state})
+        .entries(data)
+
+    var q = {}
+    q.key = "root"
+    q.values = nest
+
+
+  var treemap = d3.layout.treemap()
+          .size([width, height])
+          .sticky(true)
+          .children(function(d){return d.values})
+          .value(function(d) { return d.sales})
+          .nodes(q)
+  
+  var cells = svg.selectAll(".cell")
+            .data(treemap)
+            .enter()
+            .append("g")
+            .attr("class", "cell")
+
+  var rects = cells.append("rect")
+           .attr("x", function(d) {return d.x})           
+           .attr("y", function(d) {return d.y})
+           .attr("width", function(d) {return d.dx})
+           .attr("height", function(d) {return d.dy})
+           .attr("fill", function(d) {return d.children ? null : color(d.state)})
+
+  var texts = cells.append("text")
+           .attr("x", function(d) {return (2*d.x + d.dx)/2})            
+           .attr("y", function(d) {return (2*d.y + d.dy)/2})
+           .attr("dy", ".35em")
+             .attr("size", 2)
+             .attr("text-anchor", "middle")
+             .text(function(d) {return d.children ? null : d.state})
+
+  var texts2 = cells.append("text")
+           .attr("x", function(d) {return (2*d.x + d.dx)/2})            
+           .attr("y", function(d) {return (2*d.y + d.dy + 30)/2})
+           .attr("dy", ".35em")
+             .attr("size", 2)
+             .attr("text-anchor", "middle")
+             .text(function(d) {return d.children ? null : "S:"+d.sales})            
+
+  d3.selectAll("#RS").on("change", function change() {
+      var RS = this.value == "Region" ? 1 : 0
+      label(color, RS)
+      rects.transition()
+	      .duration(1500)
+           .attr("fill", function(d) {return d.children ? null : RS==1 ? color(d.region) : color(d.state)})
+  })
+
+  d3.selectAll("#SP").on("change", function change() {
+      var SP = this.value == "Sales" ? 1 : 0
+      treemap = d3.layout.treemap()
+          .size([width, height])
+          .sticky(true)
+          .children(function(d){return d.values})
+              .value(function(d) { return SP == 1 ? d.sales : d.profit})
+          .nodes(q)
+
+      rects.transition()
+	       .duration(1500)
+           .attr("x", function(d) {return d.x})           
+           .attr("y", function(d) {return d.y})
+           .attr("width", function(d) {return d.dx})
+           .attr("height", function(d) {return d.dy})
+
+      texts.transition().duration(1500)
+           .attr("x", function(d) {return (2*d.x + d.dx)/2})            
+           .attr("y", function(d) {return (2*d.y + d.dy)/2})
+           .attr("dy", ".35em")
+             .attr("size", 2)
+             .attr("text-anchor", "middle")
+             .text(function(d) {return d.children ? null : d.state})
+
+    texts2.transition().duration(1500)
+           .attr("x", function(d) {return (2*d.x + d.dx)/2})            
+           .attr("y", function(d) {return (2*d.y + d.dy + 30)/2})
+           .attr("dy", ".35em")
+             .attr("size", 2)
+             .attr("text-anchor", "middle")
+             .text(function(d) {return d.children ? null : SP == 1? "S:"+d.sales : "P:"+d.profit})  
+  })
+})
+
+}
+function cutdata(data) {
+  var q = []
+  
+  for (var i=0; i<data.length; i++) {
+    var flag = 0
+    for (var j=0; j<q.length; j++) {
+      if ( (flag == 0) && (data[i].state == q[j].state)) {
+        q[j].sales = q[j].sales + Number(data[i].sales)
+        q[j].profit = q[j].profit + Number(data[i].profit)
+        flag = 1
+      }
+    }
+    if (flag == 0) {
+      var newone = {region: 0, state: 0, sales: 0, profit: 0}
+      var no = q.length
+      newone.state = data[i].state
+      newone.region = data[i].region
+      newone.sales = Number(data[i].sales)
+      newone.profit = Number(data[i].profit)
+      q[no] = newone
+    }
+  }
+  
+  return q
+}
 
-		var width=960;
-		var height=500;
-
-		var nest=[];
-		var treemap=[];
-		var nodes=[];
-		var nest1=[];
-		var state;
-		var region;
-	d3.csv("coffee.csv",function(dataset){ 
-
-		 nest= d3.nest()
-		 		.key(function(){return "root";})
-				.key(function(d) { return d.region; })
-				.key(function(d) { return d.state; })
-				.entries(dataset);
-
-		
-
-		treemap = d3.layout.treemap()
-			    .size([width, height])
-			    .sticky(true)
-			    .children(function(d) {return d.values})
-			    .value(function(d) { return d.profit; })
-			    .nodes(nest[0]);
-
-		
-
-
-		var title=d3.select(".Homework4")
-					.append("div")
-					.text("HW4")
-					.style("margin-left","12%")
-					.style("margin-top","0px")
-					.style("text-align","center")
-					.style("margin-bottom","0px")
-					.style("position","relative")
-					.style("font-size","35px")
-					.style("width","960px")
-					.style("height","100px");
-
-		var title2=d3.select(".Homework4")
-					.append("div")
-					.style("margin-left","50%")
-					.style("margin-top","0px")
-					.style("margin-bottom","0px")
-					.style("position","relative")
-					.style("font-size","20px");
-
-		var title3=d3.select(".Homework4")
-					.append("div")
-					.style("margin-left","12%")
-					.style("margin-top","0px")
-					.style("margin-bottom","0px")
-					.style("position","relative")
-					.style("font-size","20px");
-
-		var div=d3.select('.Homework4')
-					.append("div")
-					.style("width",width+"px")
-					.style("height",20+"px")
-					.style("margin","auto")
-					.style("margin-top","10px")
-					.style("opacity", .9)
-					.style("position","relative")
-					.style("background","orange")
-					.text("Click Here Back")
-					.style("cursor","pointer")
-					.style("font-size","15px")
-					.style("color","black")
-					.style("text-align","center")
-					.on("click",function(){
-
-									node=div.selectAll(".node").remove();
-
-											treemap = d3.layout.treemap()
-												    .size([width, height])
-												    .sticky(true)
-												    .children(function(d) {return d.values})
-												    .value(function(d) { return d.profit; })
-												    .nodes(nest[0]);
-
-									node = div.selectAll(".node")
-								      .data(treemap.filter(function(d){ return d.depth===1 || d.depth===2}))
-								      .enter()
-								      .append("div")
-								      .attr("class", "node")
-								      .call(position)
-								      .style("background", function(d) { 							
-								      	if (d.depth==2)
-								      		return color(d.parent.key);
-								      	else return color(d.key);
-								      })
-								      .style("opacity",function(d){
-								      	if(d.depth==1) return 0.8;
-								      	else return 1;
-								      })
-								      .style("z-index",function(d){
-								      	if(d.depth==2) return 1;
-								      	else return 2;
-								      })
-								      .text(function(d){
-
-								      	if(d.depth==1)return d.key;})
-								      .style("text-align","center")
-								      .style("cursor","pointer")
-								      .call(onclick_region)
-								      .call(tooltip);
-
-
-					   });
-
-
-		var div=d3.select('.Homework4')
-					.append("div")
-					.style("width",width+"px")
-					.style("height",height+"px")
-					.style("margin","auto")
-					.style("margin-top","5px")
-					.style("opacity", .9)
-					.style("position","relative")
-					.attr("class","treemap");
-
-
-		  var node = div.selectAll(".node")
-				      .data(treemap.filter(function(d){ return d.depth===1 || d.depth===2}))
-				      .enter()
-				      .append("div")
-				      .attr("class", "node")
-				      .call(position)
-				      .style("background", function(d) { 							
-				      	if (d.depth==2)
-				      		return color(d.parent.key);
-				      	else return color(d.key);
-				      })
-				      .style("opacity",function(d){
-				      	if(d.depth==1) return 0.8;
-				      	else return 1;
-				      })
-				      .style("z-index",function(d){
-				      	if(d.depth==2) return 1;
-				      	else return 2;
-				      })
-				      .text(function(d){
-
-				      	if(d.depth==1)return d.key;})
-				      .style("text-align","center")
-				      .style("cursor","pointer")
-				      .call(tooltip)
-					  .call(onclick_region);
-
-				function position() {
-			  		this.style("left", function(d) { return d.x + "px"; })
-			      		.style("top", function(d) { return d.y + "px"; })
-			      		.style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
-			     		.style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
-									}
-
-
-				function onclick_region(){
-						this.on("click",function(d){
-
-					   		 region=d.key;
-					   		
-
-					   			nest1 = d3.nest()
-							 		.key(function(){return "root";})
-									.key(function(d) { return d.state; })
-									.entries(dataset.filter(function(a){return a.region==region;}));
-
-								
-
-								var	treemap1 = d3.layout.treemap()
-												    .size([width, height])
-												    .sticky(true)
-												    .children(function(d) {return d.values})
-												    .value(function(d) { return d.profit;
-												    .nodes(nest1[0]);
-
-												   
-
-									node=div.selectAll(".node").remove();
-
-							
-									node = div.selectAll(".node")
-								      .data(treemap1.filter(function(d){ return d.depth===1 || d.depth===2}))
-								      .enter()
-								      .append("div")
-								      .attr("class", "node")
-								      .call(position)
-								      .style("background", function(d) { 							
-								      	if (d.depth==2)
-								      		return color(d.parent.key);
-								      	else return color(d.key);
-								      })
-								      .style("opacity",function(d){
-								      	if(d.depth==1) return 0.9;
-								      	else return 1;
-								      })
-								      .style("z-index",function(d){
-								      	if(d.depth==2) return 1;
-								      	else return 2;
-								      })
-								      .text(function(d){
-
-								      	if(d.depth==1)return d.key;})
-								      .style("text-align","center")
-								      .style("cursor","pointer")
-								      .call(tooltip)
-								      .call(onclick_state);
-
-					   });
-
-				}
-
-					function onclick_state(){
-						this.on("click",function(d){
-
-					   		 state=d.key;
-				
-
-					   		var	nest2 = d3.nest()
-									.key(function(d) { return d.state; })
-									.key(function(d) { return d.date; })
-									.entries(dataset.filter(function(a){return a.state==state && a.region==region;}));
-
-							
-
-								var	treemap1 = d3.layout.treemap()
-												    .size([width, height])
-												    .sticky(true)
-												    .children(function(d) {return d.values})
-												    .value(function(d) { return d.profit; })
-												    .nodes(nest2[0]);
-
-										
-
-									node=div.selectAll(".node").remove();
-
-							
-									node = div.selectAll(".node")
-								      .data(treemap1.filter(function(d){ return d.depth===1}))
-								      .enter()
-								      .append("div")
-								      .attr("class", "node")
-								      .call(position)
-								      .style("background", function(d) {  return color(d.key);})
-								      .text(function(d){ return d.key;})
-								      .style("font-size","15px")
-								      .style("text-align","center")
-								      .call(tooltip);
-
-					   });
-
-				}
-
-
-
-
-				function tooltip(){
-					this.on("mouseover", function(d) {
-
-							var xPosition = d.x+300;
-							var yPosition = d.y+350;
-							
-
-								d3.select("#tooltip")
-							      .style("left", xPosition + "px")
-							      .style("top", yPosition + "px")
-							      .select("#value")
-								  .html(function(){
-								  	{return   d.key +"<br>"+ "Profit:" + d.value ;}
-									
-									})
-								d3.select("#tooltip").classed("hidden", false);
-								});
-
-
-					 this.on("mouseout", function() { 
-			         			d3.select("#tooltip").classed("hidden", true);
-			     			});
-
-
-
-
-				}
-
-
-
-
-
-
-
-		});
 
 
 </script>
-</div>
-</div>
 </body>
-</html>
