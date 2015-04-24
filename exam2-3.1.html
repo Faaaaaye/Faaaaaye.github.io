@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>exam2-3.1_Fan Jingxian</title>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="jquery-1.8.3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+</head>
+<style>
+#infotable{
+    align:center;
+	font-family:Arial;
+	font-size:18px;
+	line-height:20px;
+	text-align:right;
+}
+
+.line{
+    font-family:sans-serif;
+	font-size:18px;
+	text-align:right;
+	color:black;
+}
+rect:hover{
+    fill:yellow;
+}
+rect:click{
+    fill:green;
+}
+</style>
+<body>
+<div id="title">
+<h1>Exam2-3.1_Fan Jingxian</h1>
+</div>    
+ 
+           <table id= "infotable" >
+			     <tbody>   
+                  <tr id="tablehead" bgcolor="LightGrey">
+				        <th id="ItemNo" width=160>Item Number</th>
+				        <th id="NoA" width=100>A</th>
+				        <th id="NoB" width=100>B</th>
+				    	<th id="NoC" width=100>C</th>
+				        <th id="NoD" width=100>D</th>
+				        <th id="NoE" width=100>E</th>
+						<th id="NoF" width=100>F</th>
+						<th id="NoG" width=100>G</th>
+			    	</tr>
+			   	 </tbody>
+			</table>
+<script>
+
+var margin = {top: 40, right: 200, bottom: 30, left: 80},
+    width = 1600 - margin.left - margin.right,
+    height = 1000 - margin.top - margin.bottom,
+	kai=140,
+	dis=105;
+	
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+d3.json("exam2.json",function(info){
+
+var svg=d3.select("body")
+		  .append("svg")
+		  .attr("width","1000px")
+		  .attr("height","1000px");
+		  
+var rect=svg.selectAll("rect")
+	   .data(info)
+	   .enter()
+	   .append("rect")
+	   .attr("stroke","lightgrey")
+	   .attr("id", function(d) {return d.ItemNo})
+	   .attr("class","bar")
+	   .attr("height","20px")
+	   .attr("width","894px")
+	   .attr("fill","white")
+	   .attr("x",0)
+	   .attr("y",function(d,i){return 20*i;})
+	  .on("mouseover")
+	  
+
+	   
+	  
+	svg.selectAll("text")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.ItemNo;})
+	   .attr("class","line")
+	   .attr("x",100)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	  
+	svg.selectAll("text2")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.A;})
+	   .attr("class","line")
+	   .attr("x",kai+dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	 svg.selectAll("text3")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.B;})
+	   .attr("class","line")
+	   .attr("x",kai+2*dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+    svg.selectAll("text4")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.C;})
+	   .attr("class","line")
+	   .attr("x",kai+3*dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	 svg.selectAll("text5")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.D;})
+	   .attr("class","line")
+	   .attr("x",kai+4*dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	 svg.selectAll("text6")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.E;})
+	   .attr("class","line")
+	   .attr("x",kai+5*dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	 svg.selectAll("text7")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.F;})
+	   .attr("class","line")
+	   .attr("x",kai+6*dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	 svg.selectAll("text8")
+	   .data(info)
+	   .enter()
+	   .append("text")
+	   .text(function(d){return d.G;})
+	   .attr("class","line")
+	   .attr("x",kai+7*dis)
+	   .attr("y",function(d,i){return 20*(i+1);});
+	   
+	   
+	  d3.selectAll("rect") 
+	   .on("click",function(d){
+      			var turn=d.ItemNo;
+					d3.selectAll(".bar").attr("turnornot",function(d){
+      								if(d.ItemNo==turn)return 1;
+      								else
+      									return 0;});
+      				d3.selectAll(".bar")
+      				  .style("fill",function(d){
+      								if(d.ItemNo == turn)return "green";
+      							})
+      	})
+
+})
+	
+</script>
+</body>
