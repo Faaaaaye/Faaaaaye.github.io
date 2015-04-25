@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>exam2-3.3_Fan Jingxian</title>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="jquery-1.8.3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+</head>
+<style>
+#infotable{
+    align:center;
+	font-family:Arial;
+	font-size:18px;
+	line-height:19px;
+	text-align:right;
+}
+td{
+    font-family:sans-serif;
+	font-size:18px;
+	text-align:right;
+	color:black;
+}
+</style>
+<body>
+<body>
+<div id="title">
+<h1>Exam2-3.2_Fan Jingxian</h1>
+<p>Data Source:<a href="https://hivelab.org/static/exam2.json ">https://hivelab.org/static/exam2.json </a></p>
+</div> 
+
+ <table id= "infotable" >
+                  
+                  <thead bgcolor="LightGrey">
+                        <tr>
+                        <th id="ItemNo" width=160>Item Number</th>
+				        <th class="head" width=100>A</th>
+				        <th class="head" width=100>B</th>
+				    	<th class="head" width=100>C</th>
+				        <th class="head" width=100>D</th>
+				        <th class="head" width=100>E</th>
+						<th class="head" width=100>F</th>
+						<th class="head" width=100>G</th>
+                        </tr>
+                  </thead>               
+                  <tbody>     
+                  <tr> </tr>
+                  </tbody>         
+            </table>
+
+<script>
+var sort=0;
+d3.json("exam2.json",function(info){
+    //put the value onto the table in sorted order.
+    var ItemNo=info.map(function(d,i){return {"value":d.ItemNo,"id":i+1}})
+				   .sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var A=info.map(function(d,i) {return {"value":d.A,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var B=info.map(function(d,i) {return {"value":d.B,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var C=info.map(function(d,i) {return {"value":d.C,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var D=info.map(function(d,i) {return {"value":d.D,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var E=info.map(function(d,i) {return {"value":d.E,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var F=info.map(function(d,i) {return {"value":d.F,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+    var G=info.map(function(d,i) {return {"value":d.G,"id":i+1}})
+					.sort(function(a,b){return a.value<b.value? 1:-1 ;});
+           
+    var  rect=d3.select("tbody")
+      				.selectAll(".rect")
+      				.data(info)
+      				.enter()
+      				.append("tr")
+      				.attr("class","rect");
+
+    var  cell=rect.append("td")
+                 .data(ItemNo)
+      			 .text(function(d){return d.value})
+      			 .attr("class","cell");
+
+    rect.append("td")
+        .data(A)
+        .text(function(d){return d.value})
+      	.attr("class","cell");
+
+    rect.append("td")
+        .data(B)
+        .text(function(d){return d.value})
+      	.attr("class","cell");
+
+    rect.append("td")
+        .data(C)
+        .text(function(d){return d.value})
+      	.attr("class","cell");
+
+    rect.append("td")
+        .data(D)
+        .text(function(d){return d.value})
+      	.attr("class","cell");
+
+    rect.append("td")
+        .data(E)
+        .text(function(d){return d.value})
+      	.attr("class","cell");
+
+    rect.append("td")
+        .data(F)
+        .text(function(d){return d.value})
+      	.attr("class","cell");
+
+     rect.append("td")
+         .data(G)
+         .text(function(d){return d.value})
+      	 .attr("class","cell");
+		 
+d3.selectAll(".cell")
+  .attr("click","N");
+
+lightup();
+});
+//hover and light up the corresponding vuales.
+function lightup(){
+ d3.selectAll(".cell")
+   .on("mouseover",function(d){
+             var cellmark=d.id;
+
+    d3.selectAll(".cell")
+      .style("background-color",function(d){
+              if(d3.select(this).attr("click")=="N")
+                 {if(d.id == cellmark) return "yellow";
+                  else return "none";}
+              if(d3.select(this).attr("click")=="Y") return "green";});
+    })
+    .on("mouseout",function(d){
+	d3.selectAll(".cell")
+       .style("background",function(d){
+              if(d3.select(this).attr("click")=="N") return "none";
+              if(d3.select(this).attr("click")=="Y") return "green";});
+    })
+    .on("click",function(d){
+    	var cellmark=d.id;
+    d3.selectAll(".cell")
+	  .attr("click",function(d){
+			if(d.id==cellmark) return "Y";
+            else return "N";});
+
+    d3.selectAll(".cell")
+      .style("background",function(d){
+             if(d.id == cellmark) return "green"; });
+
+    });
+
+}
+
+
+
+    </script>
+  </body>
