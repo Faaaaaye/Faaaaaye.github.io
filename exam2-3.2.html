@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<head>
+<title>exam2-3.1_Fan Jingxian</title>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="jquery-1.8.3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+</head>
+<style>
+#infotable{
+    align:center;
+	font-family:Arial;
+	font-size:18px;
+	line-height:19px;
+	text-align:right;
+}
+td{
+    font-family:sans-serif;
+	font-size:18px;
+	text-align:right;
+	color:black;
+}
+</style>
+<body>
+<div id="title">
+<h1>Exam2-3.2_Fan Jingxian</h1>
+<p>Data Source:<a href="https://hivelab.org/static/exam2.json ">https://hivelab.org/static/exam2.json </a></p>
+</div> 
+ 
+            <table id= "infotable" >
+                  
+                  <thead bgcolor="LightGrey">
+                        <tr>
+                        <th id="ItemNo" width=160>Item Number</th>
+				        <th class="head" width=100>A</th>
+				        <th class="head" width=100>B</th>
+				    	<th class="head" width=100>C</th>
+				        <th class="head" width=100>D</th>
+				        <th class="head" width=100>E</th>
+						<th class="head" width=100>F</th>
+						<th class="head" width=100>G</th>
+                        </tr>
+                  </thead>               
+                  <tbody>     
+                  <tr> </tr>
+                  </tbody>         
+            </table>
+<script >
+var margin = {top: 40, right: 200, bottom: 30, left: 80},
+    width = 1600 - margin.left - margin.right,
+    height = 1000 - margin.top - margin.bottom,
+	kai=140,
+	dis=105;
+	
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+ d3.json("exam2.json",function(info){
+   
+	var svg=d3.select("body")
+		.append("svg")
+		.attr("width","1000px")
+		.attr("height","1000px");
+              
+    var rect=d3.select("tbody")
+            .selectAll(".rect")
+            .data(info)
+			.enter()
+			.append("tr")
+			.attr("class","bar")
+            .attr("turnornot",0);
+   //set up the table with given data.                                
+rect.append("td")
+	.text(function(d){return d.ItemNo});
+rect.append("td")
+	.text(function(d){return d.A});
+rect.append("td")
+	.text(function(d){return d.B});
+rect.append("td")
+	.text(function(d){return d.C});
+rect.append("td")
+	.text(function(d){return d.D});
+rect.append("td")
+	.text(function(d){return d.E});
+rect.append("td")
+	.text(function(d){return d.F});
+rect.append("td")
+	.text(function(d){return d.G});
+
+//hover & click	things
+d3.selectAll("td")
+  .on("mouseover",function(d){
+      var turn=d.ItemNo;
+     d3.selectAll(".bar")
+       .style("background",function(d){
+            if(d3.select(this).attr("turnornot")==0)
+               {if(d.ItemNo == turn) return "yellow";}
+            if(d3.select(this).attr("turnornot")==1) return "green";});
+    })
+   .on("mouseout",function(d){
+		d3.selectAll(".bar")
+        .style("background",function(d){
+			if(d3.select(this).attr("turnornot")==1) return "green";});
+    })                           
+    .on("click",function(d){
+       var turn=d.ItemNo;
+       d3.selectAll(".bar")
+	     .attr("turnornot",function(d){
+       		 if(d.ItemNo==turn) return 1;
+              else return 0;});
+       d3.selectAll(".bar")
+         .style("background",function(d){
+               if(d.ItemNo == turn)
+                  return "green";});
+});
+
+//click on the head,the color changes and sort columns.            
+var sort=0;
+d3.selectAll(".head")
+   .on("click",function(){
+        d3.selectAll("th")
+		.style("background-color","lightgrey");
+        d3.select(this)
+		.style("background-color","gold");
+           
+		   var value=d3.select(this)
+		               .text();
+        
+           info.sort(function(a,b){
+                      if(sort==1)
+                      return a[""+value+""]>b[""+value+""]? 1:-1 ;
+                      if(sort==0)
+                      return a[""+value+""]<b[""+value+""]? 1:-1 ; 
+                  });
+            sort=!sort;
+
+                  d3.selectAll(".bar")
+				    .data(info);
+				//remove the former table value and append sorted values.
+                  d3.selectAll("td")
+				  .remove();
+                  rect.append("td")
+                        .text(function(d){return d.ItemNo});
+                  rect.append("td")
+                        .text(function(d){return d.A});
+                  rect.append("td")
+                        .text(function(d){return d.B});
+                  rect.append("td")
+                        .text(function(d){return d.C});
+                  rect.append("td")
+                        .text(function(d){return d.D});
+                  rect.append("td")
+                        .text(function(d){return d.E});
+                  rect.append("td")
+                        .text(function(d){return d.F});
+                  rect.append("td")
+                        .text(function(d){return d.G});
+//still,add the hover & click thing
+ d3.selectAll("td")
+   .on("mouseover",function(d){
+		var turn=d.ItemNo;
+       d3.selectAll(".bar")
+         .style("background-color",function(d){
+                if(d3.select(this).attr("turnornot")==0)
+                     {if(d.ItemNo == turn)return "yellow"; }
+                     if(d3.select(this).attr("turnornot")==1)return "green";});
+    })
+
+   .on("mouseout",function(d){
+		d3.selectAll(".bar")
+          .style("background-color",function(d){
+				if(d3.select(this).attr("turnornot")==1)return "green"; });
+
+    })
+                              
+    .on("click",function(d){
+        var turn=d.ItemNo;
+		d3.selectAll(".bra")
+		  .attr("turnornot",function(d){
+				if(d.ItemNo==turn)return 1;
+                else return 0;});
+		
+		d3.selectAll(".bar")
+           .style("background",function(d){
+                 if(d.ItemNo == turn)return "green";});
+	});
+               
+                })  
+
+})
+            </script>
+
+           
+      </body>
+</html>
